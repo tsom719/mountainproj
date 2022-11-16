@@ -18,8 +18,7 @@ console.log(payload)
 app.use('/api', apiRouter);
 
 apiRouter.post('/yourname', function(req, res) {
-  let payload = bodyParser.json()
-  console.log(payload)
+  console.log(req.body);
   const responseBody = {
     version: "2.0",
     template: {
