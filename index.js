@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-let payload = app.get_json()
+let payload = bodyParser.json()
 console.log(payload)
 
 app.use('/api', apiRouter);
