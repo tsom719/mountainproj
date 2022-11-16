@@ -3,6 +3,9 @@ const app = express();
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 const mysql = require("mysql");
+const { JSDOM } = require( "jsdom" );
+const { window } = new JSDOM( "" );
+const $ = require( "jquery" )( window );
 
 const apiRouter = express.Router();
 
@@ -35,24 +38,42 @@ apiRouter.post('/yourname', function(req, res) {
   res.status(200).send(responseBody);
 });
 
-apiRouter.post('/mysqltest', function(req, res) {
-  let payload = bodyParser.json()
-  console.log(payload)
-  const responseBody = {
-    version: "2.0",
-    template: {
-      outputs: [
-        {
-          simpleText: {
-            text: "제 이름은 이승재 입니다."
-          }
-        }
-      ]
-    }
-  };
+apiRouter.post('/metar', async function (req, res) {
+    var wxdata = "hello";
+    var arpt = req.body.action.params.airport;
 
-  res.status(200).send(responseBody);
-});
+    await $.ajax({
+      type: 'GET',
+      url: 'https://api.checkwx.com/metar/' + arpt,
+      headers: { 'X-API-Key': 'f99eccf151947af59057e4a03f' },
+      dataType: 'json',
+      success: function (data) {
+        var obj = data;
+        var mm = obj.data;
+        console.log(mm);
+        wxdata = mm;
+        console.log(wxdata);
+      }
+    });
+    console.log(wxdata);
+
+
+    const responseBody = {
+      version: "2.0",
+      template: {
+        outputs: [
+          {
+            simpleText: {
+              text: "METAR : " + wxdata
+            }
+          }
+        ]
+      }
+    };
+
+    res.status(200).send(responseBody);
+
+  });
 
 apiRouter.post('/showHello', function(req, res) {
   console.log(req.body);
