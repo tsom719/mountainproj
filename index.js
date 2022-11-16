@@ -25,7 +25,7 @@ apiRouter.post('/yourname', function(req, res) {
       outputs: [
         {
           simpleText: {
-            text: "선택하신 지명은 " + req.body.action.params("강릉지명") + " 입니다"
+            text: "선택하신 지명은 " + req.body.action.params.강릉지명 + " 입니다"
           }
         }
       ]
