@@ -63,18 +63,21 @@ apiRouter.post("/safe", function (req, res) {
 apiRouter.post("/metar", async function (req, res) {
   var wxdata = "hello";
   var arpt = req.body.action.params.airport;
-
-  await $.ajax({
-    type: "GET",
-    url: "https://api.checkwx.com/metar/" + arpt,
-    headers: { "X-API-Key": "f99eccf151947af59057e4a03f" },
-    dataType: "json",
-    success: function (data) {
-      var obj = data;
-      var mm = obj.data;
-      wxdata = mm;
-    },
-  });
+  try {
+    await $.ajax({
+      type: "GET",
+      url: "https://api.checkwx.com/metar/" + arpt,
+      headers: { "X-API-Key": "f99eccf151947af59057e4a03f" },
+      dataType: "json",
+      success: function (data) {
+        var obj = data;
+        var mm = obj.data;
+        wxdata = mm;
+      },
+    });
+  } catch (err) {
+    wxdata = "에러발생 | 코드 : metar-err-wx-1";
+  }
   console.log(
     `%s.%s.%s %s:%s:%s -> %s`,
     year,
@@ -103,18 +106,21 @@ apiRouter.post("/metar", async function (req, res) {
 apiRouter.post("/taf", async function (req, res) {
   var wxdata = "hello";
   var arpt = req.body.action.params.airport;
-
-  await $.ajax({
-    type: "GET",
-    url: "https://api.checkwx.com/taf/" + arpt,
-    headers: { "X-API-Key": "f99eccf151947af59057e4a03f" },
-    dataType: "json",
-    success: function (data) {
-      var obj = data;
-      var mm = obj.data;
-      wxdata = mm;
-    },
-  });
+  try {
+    await $.ajax({
+      type: "GET",
+      url: "https://api.checkwx.com/taf/" + arpt,
+      headers: { "X-API-Key": "f99eccf151947af59057e4a03f" },
+      dataType: "json",
+      success: function (data) {
+        var obj = data;
+        var mm = obj.data;
+        wxdata = mm;
+      },
+    });
+  } catch (err) {
+    wxdata = "에러발생 | 코드 : taf-err-wx-1";
+  }
   console.log(
     `%s.%s.%s %s:%s:%s -> %s`,
     year,
@@ -164,5 +170,7 @@ apiRouter.post("/showHello", function (req, res) {
 });
 
 app.listen(3000, function () {
-  console.log("Skill Server listening on port 3000. [ dev.codesj.kr:3000 ] \nMade by Seungjae Lee | dev.codesj.kr\n________________________________________");
+  console.log(
+    "Skill Server listening on port 3000. [ dev.codesj.kr:3000 ] \nMade by Seungjae Lee | dev.codesj.kr\n________________________________________"
+  );
 });
