@@ -6,9 +6,7 @@ const mysql = require("mysql");
 const { JSDOM } = require("jsdom");
 const { window } = new JSDOM("");
 const $ = require("jquery")(window);
-
 const apiRouter = express.Router();
-
 app.use(logger("dev", {}));
 app.use(bodyParser.json());
 app.use(
@@ -17,12 +15,34 @@ app.use(
   })
 );
 
+let today = new Date();
+let year = today.getFullYear(); // 년도
+let month = today.getMonth() + 1; // 월
+let date = today.getDate(); // 날짜
+let hour = today.getHours(); //시간
+let min = today.getMinutes(); //분
+let sec = today.getSeconds(); //초
+
 let payload = bodyParser.json();
-console.log(payload);
+console.log(
+  year +
+    "." +
+    month +
+    "." +
+    date +
+    " " +
+    hour +
+    ":" +
+    min +
+    ":" +
+    sec +
+    " => " +
+    payload
+);
 
 app.use("/api", apiRouter);
 
-apiRouter.post("/yourname", function (req, res) {
+apiRouter.post("/safe", function (req, res) {
   console.log(req.body);
   const responseBody = {
     version: "2.0",
@@ -52,13 +72,19 @@ apiRouter.post("/metar", async function (req, res) {
     success: function (data) {
       var obj = data;
       var mm = obj.data;
-      console.log(mm);
       wxdata = mm;
-      console.log(wxdata);
     },
   });
-  console.log(wxdata);
-
+  console.log(
+    `%s.%s.%s %s:%s:%s -> %s`,
+    year,
+    month,
+    date,
+    hour,
+    min,
+    sec,
+    wxdata
+  );
   const responseBody = {
     version: "2.0",
     template: {
@@ -71,7 +97,6 @@ apiRouter.post("/metar", async function (req, res) {
       ],
     },
   };
-
   res.status(200).send(responseBody);
 });
 
@@ -87,12 +112,19 @@ apiRouter.post("/taf", async function (req, res) {
     success: function (data) {
       var obj = data;
       var mm = obj.data;
-      console.log(mm);
       wxdata = mm;
-      console.log(wxdata);
     },
   });
-  console.log(wxdata);
+  console.log(
+    `%s.%s.%s %s:%s:%s -> %s`,
+    year,
+    month,
+    date,
+    hour,
+    min,
+    sec,
+    wxdata
+  );
 
   const responseBody = {
     version: "2.0",
@@ -132,5 +164,5 @@ apiRouter.post("/showHello", function (req, res) {
 });
 
 app.listen(3000, function () {
-  console.log("Example skill server listening on port 3000!");
+  console.log("Skill Server listening on port 3000. [ dev.codesj.kr:3000 ] \nMade by Seungjae Lee | dev.codesj.kr\n________________________________________");
 });
