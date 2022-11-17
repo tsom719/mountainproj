@@ -171,6 +171,6 @@ apiRouter.post("/showHello", function (req, res) {
 
 app.listen(3000, function () {
   console.log(
-    "Skill Server listening on port 3000. [ dev.codesj.kr:3000 ] \nMade by Seungjae Lee | dev.codesj.kr\n________________________________________"
+    "Skill Server listening on port 3000. [ dev.codesj.kr:3000 ] \nMade by Seungjae Lee | dev.codesj.kr\n_______________BACK V1.1_______________"
   );
 });
