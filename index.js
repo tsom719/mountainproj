@@ -39,13 +39,13 @@ app.use("/api", apiRouter);
 
 apiRouter.post("/safeinfo", function (req, res) {
   console.log(req.body);
-  let dbchecksafe ="SELECT * FROM mt_safe WHERE name=" + req.body.action.params.gn //지갑 확인
+  let dbchecksafe ="SELECT * FROM mt_safe WHERE name='" + req.body.action.params.gn+"'" //지갑 확인
   let info = ''
   function callmql(err, rows, fields) {
     if (err) {
       throw err;
     } else if (!rows.length) {
-      info = info + rows[i].name
+      info = info + rows[i].desc
     }
   }
   mql.query(dbchecksafe, callmql)
