@@ -37,7 +37,7 @@ console.log( year +"." +month +"." +date +" " +hour +":" +min +":" +sec +" => " 
 
 app.use("/api", apiRouter);
 
-apiRouter.post("/safeinfo", function (req, res) {
+apiRouter.post("/safeinfo", async function (req, res) {
   console.log(req.body);
   let dbchecksafe ="SELECT * FROM mt_safe WHERE name='" + req.body.action.params.gn+"'" //지갑 확인
   let info = ''
@@ -48,7 +48,7 @@ apiRouter.post("/safeinfo", function (req, res) {
       info == info + rows[i].desc
     }
   }
-  mql.query(dbchecksafe, callmql)
+    await mql.query(dbchecksafe, callmql)
   console.log(info)
 
   const responseBody = {
