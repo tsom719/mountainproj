@@ -7,7 +7,7 @@ const { JSDOM } = require("jsdom");
 const { window } = new JSDOM("");
 const $ = require("jquery")(window);
 const apiRouter = express.Router();
-const settings = require("/botsettings.json");
+const settings = require("botsettings.json");
 app.use(logger("dev", {}));
 app.use(bodyParser.json());
 app.use(
