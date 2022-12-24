@@ -49,7 +49,7 @@ apiRouter.post("/safeinfo", async function (req, res) {
     }
   }
     await mql.query(dbchecksafe, callmql)
-  console.log(info)
+  await console.log(info)
 
   const responseBody = {
     version: "2.0",
@@ -64,7 +64,7 @@ apiRouter.post("/safeinfo", async function (req, res) {
     },
   };
 
-  res.status(200).send(responseBody);
+  await res.status(200).send(responseBody);
 });
 
 
