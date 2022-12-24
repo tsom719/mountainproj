@@ -16,6 +16,7 @@ app.use(
   })
 );
 
+
 var mql = mysql.createPool({
   host: settings.mqlhost,
   user: settings.mqlid,
@@ -23,6 +24,31 @@ var mql = mysql.createPool({
   port: settings.mqlport,
   database: settings.mqlbase,
 });
+
+var infoll
+
+function sfinfo(rq) {
+
+  let dbchecksafe = "SELECT * FROM mt_safe WHERE name='" + rq + "'"; //지갑 확인
+  function callmql(err, rows, fields) {
+    if (err) {
+      throw err;
+    } else if (!rows.length) {
+      return;
+    } else {
+
+      for (var i = 0; i < rows.length; i++) {
+        info = rows[i].desc;
+      }
+    }
+    infoll = info;
+    //console.log(infoll);
+  }
+
+
+  mql.query(dbchecksafe, callmql);
+
+}
 
 let today = new Date();
 let year = today.getFullYear(); // 년도
@@ -37,36 +63,24 @@ console.log( year +"." +month +"." +date +" " +hour +":" +min +":" +sec +" => " 
 
 app.use("/api", apiRouter);
 
-apiRouter.post("/safeinfo", async function (req, res) {
-  console.log(req.body);
-  let dbchecksafe ="SELECT * FROM mt_safe WHERE name='" + req.body.action.params.gn+"'" //지갑 확인
-  let info = ''
-  function callmql(err, rows, fields) {
-    if (err) {
-      throw err;
-    } else if (!rows.length) {
-      info == info + rows[i].desc
-      console.log(rows[i].desc)
-    }
-  }
-    await mql.query(dbchecksafe, callmql)
-   console.log(info)
-
-  const responseBody = {
-    version: "2.0",
-    template: {
-      outputs: [
-        {
-          simpleText: {
-            text: info,
+apiRouter.post("/safeinfo", async (req, res) => {
+    console.log(req.body);
+    sfinfo(req.body.action.params.gn);
+    setTimeout(() => {  let responseBody = {
+      version: "2.0",
+      template: {
+        outputs: [
+          {
+            simpleText: {
+              text: infoll,
+            },
           },
-        },
-      ],
-    },
-  };
-
-  res.status(200).send(responseBody);
-});
+        ],
+      },
+    };
+    res.status(200).send(responseBody); }, 50);
+    
+  });
 
 
 
