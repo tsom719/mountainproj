@@ -33,39 +33,31 @@ let min = today.getMinutes(); //분
 let sec = today.getSeconds(); //초
 
 let payload = bodyParser.json();
-console.log(
-  year +
-    "." +
-    month +
-    "." +
-    date +
-    " " +
-    hour +
-    ":" +
-    min +
-    ":" +
-    sec +
-    " => " +
-    payload
-);
+console.log( year +"." +month +"." +date +" " +hour +":" +min +":" +sec +" => " +payload);
 
 app.use("/api", apiRouter);
 
 apiRouter.post("/safeinfo", function (req, res) {
   console.log(req.body);
+  let dbchecksafe ="SELECT * FROM mt_safe WHERE name=" + req.body.action.params.gn //지갑 확인
+  let info = ''
+  function callmql(err, rows, fields) {
+    if (err) {
+      throw err;
+    } else if (!rows.length) {
+      info = info + rows[i].name
+    }
+  }
+  mql.query(dbchecksafe, callmql)
+  console.log(info)
+
   const responseBody = {
-
-
-
-
-
-
     version: "2.0",
     template: {
       outputs: [
         {
           simpleText: {
-            text: "선택하신 지명은 " + req.body.action.params.gn + " 입니다",
+            text: info,
           },
         },
       ],
