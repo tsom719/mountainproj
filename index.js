@@ -45,7 +45,7 @@ apiRouter.post("/safeinfo", function (req, res) {
     if (err) {
       throw err;
     } else if (!rows.length) {
-      info = info + rows[i].desc
+      info == info + rows[i].desc
     }
   }
   mql.query(dbchecksafe, callmql)
