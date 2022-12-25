@@ -16,6 +16,13 @@ app.use(
   })
 );
 
+let today = new Date();
+let year = today.getFullYear(); // 년도
+let month = today.getMonth() + 1; // 월
+let date = today.getDate(); // 날짜
+let hour = today.getHours(); //시간
+let min = today.getMinutes(); //분
+let sec = today.getSeconds(); //초
 
 var mql = mysql.createPool({
   host: settings.mqlhost,
@@ -27,36 +34,41 @@ var mql = mysql.createPool({
 
 var infoll
 
-function sfinfo(rq) {
-
-  let dbchecksafe = "SELECT * FROM mt_safe WHERE name='" + rq + "'"; //지갑 확인
+function sfinfo(rq) { // 안전정보 확인 func
+  let dbchecksafe = "SELECT * FROM mt_safe WHERE name='" + rq + "'";
   function callmql(err, rows, fields) {
     if (err) {
       throw err;
     } else if (!rows.length) {
       return;
     } else {
-
+      var info = ''
       for (var i = 0; i < rows.length; i++) {
-        info = rows[i].desc;
+        info = info + '\n' + rows[i].desc;
       }
     }
     infoll = info;
-    //console.log(infoll);
   }
-
-
   mql.query(dbchecksafe, callmql);
-
 }
 
-let today = new Date();
-let year = today.getFullYear(); // 년도
-let month = today.getMonth() + 1; // 월
-let date = today.getDate(); // 날짜
-let hour = today.getHours(); //시간
-let min = today.getMinutes(); //분
-let sec = today.getSeconds(); //초
+function sfinfo(rq) { // 응급처치 확인 func
+  let dbchecksafe = "SELECT * FROM mt_emer WHERE name='" + rq + "'";
+  function callmql(err, rows, fields) {
+    if (err) {
+      throw err;
+    } else if (!rows.length) {
+      return;
+    } else {
+      var info = ''
+      for (var i = 0; i < rows.length; i++) {
+        info = info + '\n' + rows[i].desc;
+      }
+    }
+    infoll = info;
+  }
+  mql.query(dbchecksafe, callmql);
+}
 
 let payload = bodyParser.json();
 console.log( year +"." +month +"." +date +" " +hour +":" +min +":" +sec +" => " +payload);
@@ -65,7 +77,7 @@ app.use("/api", apiRouter);
 
 apiRouter.post("/safeinfo", async (req, res) => {
     console.log(req.body);
-    sfinfo(req.body.action.params.gn);
+    sfinfo(req.body.action.clientExtra.safename);
     setTimeout(() => {  let responseBody = {
       version: "2.0",
       template: {
@@ -81,8 +93,6 @@ apiRouter.post("/safeinfo", async (req, res) => {
     res.status(200).send(responseBody); }, 50);
     
   });
-
-
 
 apiRouter.post("/showHello", function (req, res) {
   console.log(req.body);
