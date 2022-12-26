@@ -52,7 +52,7 @@ function sfinfo(rq) { // 안전정보 확인 func
   mql.query(dbchecksafe, callmql);
 }
 
-function sfinfo(rq) { // 응급처치 확인 func
+function eminfo(rq) { // 응급처치 확인 func
   let dbchecksafe = "SELECT * FROM mt_emer WHERE name='" + rq + "'";
   function callmql(err, rows, fields) {
     if (err) {
