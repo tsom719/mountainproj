@@ -35,7 +35,7 @@ var mql = mysql.createPool({
 var infoll
 
 function sfinfo(rq) { // 안전정보 확인 func
-  let dbchecksafe = "SELECT * FROM mt_safe WHERE name='" + rq + "'";
+  let dbchecksafe = `SELECT * FROM mt_safe WHERE name='${rq}'`;
   function callmql(err, rows, fields) {
     if (err) {
       throw err;
@@ -53,7 +53,7 @@ function sfinfo(rq) { // 안전정보 확인 func
 }
 
 function eminfo(rq) { // 응급처치 확인 func
-  let dbchecksafe = "SELECT * FROM mt_emer WHERE name='" + rq + "'";
+  let dbchecksafe = `SELECT * FROM mt_emer WHERE name='${rq}'`;
   function callmql(err, rows, fields) {
     if (err) {
       throw err;
@@ -73,7 +73,7 @@ function eminfo(rq) { // 응급처치 확인 func
 }
 
 function hsinfo(rq) { // 병원정보 확인 func
-  let dbchecksafe = "SELECT * FROM mt_gnhos WHERE dong='" + rq + "'";
+  let dbchecksafe = `SELECT * FROM mt_gnhos WHERE dong='${rq}'`;
   function callmql(err, rows, fields) {
     if (err) {
       throw err;
@@ -88,6 +88,25 @@ function hsinfo(rq) { // 병원정보 확인 func
     infoll = info + '(위급한 상황에는 종합병원 응급실을 방문해주세요)'
   }
   mql.query(dbchecksafe, callmql);
+}
+
+function mtinfo(rq) { // 산정보 확인 func
+  let dbchecksafe = `SELECT * FROM mt_mountain WHERE name='${rq}'`;
+  function callmql(err, rows, fields) {
+    if (err) {
+      throw err;
+    } else if (!rows.length) {
+      return;
+    } else {
+      var mtn = ''
+      for (var i = 0; i < rows.length; i++) {
+        mtn = rows[i].name
+      }
+    }
+    mtname = mtn
+  }
+  mql.query(dbchecksafe, callmql);
+  hsinfo(mtname)
 }
 
 
@@ -145,6 +164,25 @@ apiRouter.post("/safeinfo", function (req, res) {
           {
             simpleText: {
               text: infoll,
+            },
+          },
+        ],
+      },
+    };
+    res.status(200).send(responseBody); }, 50);
+    
+  });
+
+  apiRouter.post("/mtinfo", function (req, res) {
+    console.log(req.body);
+    hsinfo(req.body.action.clientExtra.mtname);
+    setTimeout(() => {  let responseBody = {
+      version: "2.0",
+      template: {
+        outputs: [
+          {
+            simpleText: {
+              text: '산이 위치한 지역의 병원입니다.\n\n'+infoll,
             },
           },
         ],
