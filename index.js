@@ -70,14 +70,72 @@ function eminfo(rq) { // 응급처치 확인 func
   mql.query(dbchecksafe, callmql);
 }
 
+function hsinfo(rq) { // 병원정보 확인 func
+  let dbchecksafe = "SELECT * FROM mt_gnhos WHERE dong='" + rq + "'";
+  function callmql(err, rows, fields) {
+    if (err) {
+      throw err;
+    } else if (!rows.length) {
+      return;
+    } else {
+      var info = ''
+      for (var i = 0; i < rows.length; i++) {
+        info = info + '\n' + rows[i].desc;
+      }
+    }
+    infoll = info;
+  }
+  mql.query(dbchecksafe, callmql);
+}
+
+
+
 let payload = bodyParser.json();
 console.log( year +"." +month +"." +date +" " +hour +":" +min +":" +sec +" => " +payload);
 
 app.use("/api", apiRouter);
 
-apiRouter.post("/safeinfo", async (req, res) => {
+apiRouter.post("/safeinfo", function (req, res) {
     console.log(req.body);
     sfinfo(req.body.action.clientExtra.safename);
+    setTimeout(() => {  let responseBody = {
+      version: "2.0",
+      template: {
+        outputs: [
+          {
+            simpleText: {
+              text: infoll,
+            },
+          },
+        ],
+      },
+    };
+    res.status(200).send(responseBody); }, 50);
+    
+  });
+
+  apiRouter.post("/eminfo", function (req, res) {
+    console.log(req.body);
+    eminfo(req.body.action.clientExtra.safename);
+    setTimeout(() => {  let responseBody = {
+      version: "2.0",
+      template: {
+        outputs: [
+          {
+            simpleText: {
+              text: infoll,
+            },
+          },
+        ],
+      },
+    };
+    res.status(200).send(responseBody); }, 50);
+    
+  });
+
+  apiRouter.post("/hsinfo", function (req, res) {
+    console.log(req.body);
+    hsinfo(req.body.action.clientExtra.safename);
     setTimeout(() => {  let responseBody = {
       version: "2.0",
       template: {
