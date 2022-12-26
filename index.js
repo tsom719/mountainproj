@@ -175,7 +175,7 @@ apiRouter.post("/safeinfo", function (req, res) {
 
   apiRouter.post("/mtinfo", function (req, res) {
     console.log(req.body);
-    hsinfo(req.body.action.clientExtra.mtname);
+    hsinfo(req.body.action.params.mtname);
     setTimeout(() => {  let responseBody = {
       version: "2.0",
       template: {
