@@ -44,7 +44,7 @@ function sfinfo(rq) { // 안전정보 확인 func
     } else {
       var info = ''
       for (var i = 0; i < rows.length; i++) {
-        info = info + '\n' + rows[i].desc;
+        info = rows[i].desc;
       }
     }
     infoll = info;
@@ -62,7 +62,7 @@ function eminfo(rq) { // 응급처치 확인 func
     } else {
       var info = ''
       for (var i = 0; i < rows.length; i++) {
-        info = info + '\n' + rows[i].desc;
+        info = rows[i].desc;
       }
     }
     infoll = info;
@@ -83,7 +83,7 @@ function hsinfo(rq) { // 병원정보 확인 func
         info = info + rows[i].name + ' : ' + rows[i].depart + '\n'
       }
     }
-    infoll = info;
+    infoll = info + '(병원 정보는 정확하지 않을 수 있습니다)'
   }
   mql.query(dbchecksafe, callmql);
 }
