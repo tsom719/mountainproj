@@ -80,7 +80,7 @@ function hsinfo(rq) { // 병원정보 확인 func
     } else {
       var info = ''
       for (var i = 0; i < rows.length; i++) {
-        info = info + '\n' + rows[i].desc;
+        info = info + '\n' + rows[i].name;
       }
     }
     infoll = info;
