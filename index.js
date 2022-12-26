@@ -116,7 +116,7 @@ apiRouter.post("/safeinfo", function (req, res) {
 
   apiRouter.post("/eminfo", function (req, res) {
     console.log(req.body);
-    eminfo(req.body.action.clientExtra.safename);
+    eminfo(req.body.action.clientExtra.eminfo);
     setTimeout(() => {  let responseBody = {
       version: "2.0",
       template: {
