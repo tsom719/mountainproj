@@ -85,7 +85,7 @@ function hsinfo(rq) { // 병원정보 확인 func
         info = info + rows[i].name + ' : ' + rows[i].depart + '\n'
       }
     }
-    infoll = info + '(병원 정보는 정확하지 않을 수 있습니다)'
+    infoll = info + '(위급한 상황에는 종합병원 응급실을 방문해주세요)'
   }
   mql.query(dbchecksafe, callmql);
 }
@@ -137,7 +137,7 @@ apiRouter.post("/safeinfo", function (req, res) {
 
   apiRouter.post("/hsinfo", function (req, res) {
     console.log(req.body);
-    hsinfo(req.body.action.clientExtra.gn);
+    hsinfo(req.body.action.params.gn);
     setTimeout(() => {  let responseBody = {
       version: "2.0",
       template: {
