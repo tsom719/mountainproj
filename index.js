@@ -63,9 +63,11 @@ function eminfo(rq) { // 응급처치 확인 func
       var info = ''
       for (var i = 0; i < rows.length; i++) {
         info = rows[i].desc;
+        console.log(rows[i].desc)
       }
     }
     infoll = info;
+
   }
   mql.query(dbchecksafe, callmql);
 }
