@@ -133,7 +133,7 @@ apiRouter.post("/safeinfo", function (req, res) {
     
   });
 
-  apiRouter.post("/eminfo", function (req, res) {
+  apiRouter.post("/hsinfo", function (req, res) {
     console.log(req.body);
     hsinfo(req.body.action.clientExtra.safename);
     setTimeout(() => {  let responseBody = {
