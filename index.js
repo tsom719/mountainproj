@@ -173,11 +173,13 @@ apiRouter.post("/safeinfo", function (req, res) {
     
   });
 
-  apiRouter.post("/mtinfo", function (req, res) {
+  apiRouter.post("/mtinfo", async function (req, res) {
     console.log(req.body);
-    mtinfo(req.body.action.params.mtname);
-    console.log(mtname)
-    setTimeout(() => {hsinfo(mtname)}, 50);
+    
+    setTimeout(() => {mtinfo(req.body.action.params.mtname);}, 100);
+    setTimeout(() => {
+      hsinfo(mtname);
+    }, 100);
     setTimeout(() => {  let responseBody = {
       version: "2.0",
       template: {
