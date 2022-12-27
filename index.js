@@ -93,6 +93,7 @@ function hsinfo(rq) { // 병원정보 확인 func
 
 function mtinfo(rq) { // 산정보 확인 func
   let dbchecksafe = `SELECT * FROM mt_mountain WHERE name='${rq}'`;
+  
   function callmql(err, rows, fields) {
     if (err) {
       throw err;
@@ -132,7 +133,7 @@ console.log( year +"." +month +"." +date +" " +hour +":" +min +":" +sec +" => " 
 app.use("/api", apiRouter);
 
 apiRouter.post("/safeinfo", function (req, res) {
-    console.log(req.body);
+    
     sfinfo(req.body.action.clientExtra.safename);
     setTimeout(() => {  let responseBody = {
       version: "2.0",
@@ -151,7 +152,7 @@ apiRouter.post("/safeinfo", function (req, res) {
   });
 
   apiRouter.post("/eminfo", function (req, res) {
-    console.log(req.body);
+    
     eminfo(req.body.action.clientExtra.eminfo);
     setTimeout(() => {  let responseBody = {
       version: "2.0",
@@ -170,7 +171,7 @@ apiRouter.post("/safeinfo", function (req, res) {
   });
 
   apiRouter.post("/hsinfo", function (req, res) {
-    console.log(req.body);
+    
     hsinfo(req.body.action.params.gn);
     setTimeout(() => {  let responseBody = {
       version: "2.0",
@@ -189,13 +190,10 @@ apiRouter.post("/safeinfo", function (req, res) {
   });
 
   apiRouter.post("/mtinfo", function (req, res) {
-    console.log(req.body);
+    //
     
     mtinfo(req.body.action.params.mtname);
 
-    setTimeout(() => {
-      hsinfo(mtname);
-    }, 100);
     setTimeout(() => {  let responseBody = {
       version: "2.0",
       template: {
@@ -213,7 +211,7 @@ apiRouter.post("/safeinfo", function (req, res) {
   });
 
 apiRouter.post("/showHello", function (req, res) {
-  console.log(req.body);
+  
 
   const responseBody = {
     version: "2.0",
