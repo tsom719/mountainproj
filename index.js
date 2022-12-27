@@ -192,12 +192,10 @@ apiRouter.post("/safeinfo", function (req, res) {
     console.log(req.body);
     
     mtinfo(req.body.action.params.mtname);
-<<<<<<< HEAD
+
     setTimeout(() => {
       hsinfo(mtname);
     }, 100);
-=======
->>>>>>> 15c9351dee5383ce02878d1440f12be5ec4e6e75
     setTimeout(() => {  let responseBody = {
       version: "2.0",
       template: {
