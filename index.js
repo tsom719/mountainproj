@@ -33,6 +33,7 @@ var mql = mysql.createPool({
 });
 
 var infoll
+var mtname
 
 function sfinfo(rq) { // 안전정보 확인 func
   let dbchecksafe = `SELECT * FROM mt_safe WHERE name='${rq}'`;
