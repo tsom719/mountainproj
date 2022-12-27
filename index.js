@@ -106,8 +106,7 @@ function mtinfo(rq) { // 산정보 확인 func
     }
     mtname = mtn
   }
-  mql.query(dbchecksafe, callmql);
-  hsinfo(mtname)
+  mql.query(dbchecksafe, callmql)
 }
 
 
@@ -177,6 +176,7 @@ apiRouter.post("/safeinfo", function (req, res) {
   apiRouter.post("/mtinfo", function (req, res) {
     console.log(req.body);
     mtinfo(req.body.action.params.mtname);
+    setTimeout(() => {hsinfo(mtname)}, 50);
     setTimeout(() => {  let responseBody = {
       version: "2.0",
       template: {
