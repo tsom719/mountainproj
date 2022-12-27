@@ -102,6 +102,21 @@ function mtinfo(rq) { // 산정보 확인 func
       var mtn = ''
       for (var i = 0; i < rows.length; i++) {
         mtn = rows[i].dong
+        let dbchecksafe1 = `SELECT * FROM mt_gnhos WHERE dong='${mtn}'`;
+        function callmql1(err, rows, fields) {
+         if (err) {
+           throw err;
+          } else if (!rows.length) {
+           return;
+         } else {
+           var info = ''
+           for (var i = 0; i < rows.length; i++) {
+        info = info + rows[i].name + ' : ' + rows[i].depart + '\n'
+      }
+    }
+    infoll = info + '(위급한 상황에는 종합병원 응급실을 방문해주세요)'
+  }
+  mql.query(dbchecksafe1, callmql1);
       }
     }
     mtname = mtn
@@ -176,8 +191,6 @@ apiRouter.post("/safeinfo", function (req, res) {
   apiRouter.post("/mtinfo", function (req, res) {
     console.log(req.body);
     mtinfo(req.body.action.params.mtname);
-    console.log(mtname)
-    setTimeout(() => {hsinfo(mtname)}, 50);
     setTimeout(() => {  let responseBody = {
       version: "2.0",
       template: {
