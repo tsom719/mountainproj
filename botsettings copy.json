@@ -1,3 +1,8 @@
-
-    mqlhost : "dev.codesj.kr"
-    
+{
+	"version":" (V.0.1.0.b)",
+	"mqlhost":"127.0.0.1",
+	"mqlid":"mtbot",
+	"mqlpass":"",
+	"mqlport":"3306",
+	"mqlbase":"mtbot"
+}
