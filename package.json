@@ -1,5 +1,5 @@
 {
-  "name": "skillsv-example",
+  "name": "mountainproject",
   "version": "0.0.1",
   "description": "example",
   "main": "index.js",
@@ -15,5 +15,14 @@
     "jsdom": "^20.0.2",
     "morgan": "^1.10.0",
     "mysql": "^2.18.1"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tsom719/mountainproj.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tsom719/mountainproj/issues"
+  },
+  "homepage": "https://github.com/tsom719/mountainproj#readme"
 }

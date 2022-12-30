@@ -108,7 +108,7 @@ function mtinfo(rq) { // 산정보 확인 func
          if (err) {
            throw err;
           } else if (!rows.length) {
-           return;
+            var info = '해당하는 병원이 없습니다.\n\n'
          } else {
            var info = ''
            for (var i = 0; i < rows.length; i++) {
@@ -128,7 +128,7 @@ function mtinfo(rq) { // 산정보 확인 func
 
 
 let payload = bodyParser.json();
-console.log( year +"." +month +"." +date +" " +hour +":" +min +":" +sec +" => " +payload);
+//console.log( year +"." +month +"." +date +" " +hour +":" +min +":" +sec +" => " +payload);
 
 app.use("/api", apiRouter);
 
