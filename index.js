@@ -32,9 +32,10 @@ var mql = mysql.createPool({
   database: settings.mqlbase,
 });
 
-var infoll
+var infoll;
 
-function sfinfo(rq) { // 안전정보 확인 func
+function sfinfo(rq) {
+  // 안전정보 확인 func
   let dbchecksafe = `SELECT * FROM mt_safe WHERE name='${rq}'`;
   function callmql(err, rows, fields) {
     if (err) {
@@ -42,7 +43,7 @@ function sfinfo(rq) { // 안전정보 확인 func
     } else if (!rows.length) {
       return;
     } else {
-      var info = ''
+      var info = "";
       for (var i = 0; i < rows.length; i++) {
         info = rows[i].desc;
       }
@@ -52,7 +53,8 @@ function sfinfo(rq) { // 안전정보 확인 func
   mql.query(dbchecksafe, callmql);
 }
 
-function eminfo(rq) { // 응급처치 확인 func
+function eminfo(rq) {
+  // 응급처치 확인 func
   let dbchecksafe = `SELECT * FROM mt_emer WHERE name='${rq}'`;
   function callmql(err, rows, fields) {
     if (err) {
@@ -60,19 +62,19 @@ function eminfo(rq) { // 응급처치 확인 func
     } else if (!rows.length) {
       return;
     } else {
-      var info = ''
+      var info = "";
       for (var i = 0; i < rows.length; i++) {
         info = rows[i].desc;
-        console.log(rows[i].desc)
+        console.log(rows[i].desc);
       }
     }
     infoll = info;
-
   }
   mql.query(dbchecksafe, callmql);
 }
 
-function hsinfo(rq) { // 병원정보 확인 func
+function hsinfo(rq) {
+  // 병원정보 확인 func
   let dbchecksafe = `SELECT * FROM mt_gnhos WHERE dong='${rq}'`;
   function callmql(err, rows, fields) {
     if (err) {
@@ -80,51 +82,50 @@ function hsinfo(rq) { // 병원정보 확인 func
     } else if (!rows.length) {
       return;
     } else {
-      var info = ''
+      var info = "";
       for (var i = 0; i < rows.length; i++) {
-        info = info + rows[i].name + ' : ' + rows[i].depart + '\n'
+        info = info + rows[i].name + " : " + rows[i].depart + "\n";
       }
     }
-    infoll = info + '(위급한 상황에는 종합병원 응급실을 방문해주세요)'
+    infoll = info + "(위급한 상황에는 종합병원 응급실을 방문해주세요)";
   }
   mql.query(dbchecksafe, callmql);
 }
 
-function mtinfo(rq) { // 산정보 확인 func
+function mtinfo(rq) {
+  // 산정보 확인 func
   let dbchecksafe = `SELECT * FROM mt_mountain WHERE name='${rq}'`;
-  
+
   function callmql(err, rows, fields) {
     if (err) {
       throw err;
     } else if (!rows.length) {
       return;
     } else {
-      var mtn = ''
+      var mtn = "";
       for (var i = 0; i < rows.length; i++) {
-        mtn = rows[i].dong
+        mtn = rows[i].dong;
         let dbchecksafe1 = `SELECT * FROM mt_gnhos WHERE dong='${mtn}'`;
         function callmql1(err, rows, fields) {
-         if (err) {
-           throw err;
+          if (err) {
+            throw err;
           } else if (!rows.length) {
-            var info = '해당하는 병원이 없습니다.\n\n'
-         } else {
-           var info = ''
-           for (var i = 0; i < rows.length; i++) {
-        info = info + rows[i].name + ' : ' + rows[i].depart + '\n'
+            var info = "해당하는 병원이 없습니다.\n\n";
+          } else {
+            var info = "";
+            for (var i = 0; i < rows.length; i++) {
+              info = info + rows[i].name + " : " + rows[i].depart + "\n";
+            }
+          }
+          infoll = info + "(위급한 상황에는 종합병원 응급실을 방문해주세요)";
+        }
+        mql.query(dbchecksafe1, callmql1);
       }
     }
-    infoll = info + '(위급한 상황에는 종합병원 응급실을 방문해주세요)'
+    mtname = mtn;
   }
-  mql.query(dbchecksafe1, callmql1);
-      }
-    }
-    mtname = mtn
-  }
-  mql.query(dbchecksafe, callmql)
+  mql.query(dbchecksafe, callmql);
 }
-
-
 
 let payload = bodyParser.json();
 //console.log( year +"." +month +"." +date +" " +hour +":" +min +":" +sec +" => " +payload);
@@ -132,9 +133,9 @@ let payload = bodyParser.json();
 app.use("/api", apiRouter);
 
 apiRouter.post("/safeinfo", function (req, res) {
-    
-    sfinfo(req.body.action.clientExtra.safename);
-    setTimeout(() => {  let responseBody = {
+  sfinfo(req.body.action.clientExtra.safename);
+  setTimeout(() => {
+    let responseBody = {
       version: "2.0",
       template: {
         outputs: [
@@ -146,14 +147,14 @@ apiRouter.post("/safeinfo", function (req, res) {
         ],
       },
     };
-    res.status(200).send(responseBody); }, 50);
-    
-  });
+    res.status(200).send(responseBody);
+  }, 50);
+});
 
-  apiRouter.post("/eminfo", function (req, res) {
-    
-    eminfo(req.body.action.clientExtra.eminfo);
-    setTimeout(() => {  let responseBody = {
+apiRouter.post("/eminfo", function (req, res) {
+  eminfo(req.body.action.clientExtra.eminfo);
+  setTimeout(() => {
+    let responseBody = {
       version: "2.0",
       template: {
         outputs: [
@@ -165,14 +166,14 @@ apiRouter.post("/safeinfo", function (req, res) {
         ],
       },
     };
-    res.status(200).send(responseBody); }, 50);
-    
-  });
+    res.status(200).send(responseBody);
+  }, 50);
+});
 
-  apiRouter.post("/hsinfo", function (req, res) {
-    
-    hsinfo(req.body.action.params.gn);
-    setTimeout(() => {  let responseBody = {
+apiRouter.post("/hsinfo", function (req, res) {
+  hsinfo(req.body.action.params.gn);
+  setTimeout(() => {
+    let responseBody = {
       version: "2.0",
       template: {
         outputs: [
@@ -184,34 +185,33 @@ apiRouter.post("/safeinfo", function (req, res) {
         ],
       },
     };
-    res.status(200).send(responseBody); }, 50);
-    
-  });
+    res.status(200).send(responseBody);
+  }, 50);
+});
 
-  apiRouter.post("/mtinfo", function (req, res) {
-    //
-    
-    mtinfo(req.body.action.params.mtname);
+apiRouter.post("/mtinfo", function (req, res) {
+  //
 
-    setTimeout(() => {  let responseBody = {
+  mtinfo(req.body.action.params.mtname);
+
+  setTimeout(() => {
+    let responseBody = {
       version: "2.0",
       template: {
         outputs: [
           {
             simpleText: {
-              text: '산이 위치한 지역의 병원입니다.\n\n'+infoll,
+              text: "산이 위치한 지역의 병원입니다.\n\n" + infoll,
             },
           },
         ],
       },
     };
-    res.status(200).send(responseBody); }, 150);
-    
-  });
+    res.status(200).send(responseBody);
+  }, 150);
+});
 
 apiRouter.post("/showHello", function (req, res) {
-  
-
   const responseBody = {
     version: "2.0",
     template: {
