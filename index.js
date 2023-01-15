@@ -191,10 +191,7 @@ apiRouter.post("/hsinfo", function (req, res) {
 });
 
 apiRouter.post("/mtinfo", function (req, res) {
-  //
-
   mtinfo(req.body.action.params.mtname);
-
   setTimeout(() => {
     let responseBody = {
       version: "2.0",
@@ -212,27 +209,10 @@ apiRouter.post("/mtinfo", function (req, res) {
   }, 150);
 });
 
-apiRouter.post("/showHello", function (req, res) {
-  const responseBody = {
-    version: "2.0",
-    template: {
-      outputs: [
-        {
-          simpleImage: {
-            imageUrl:
-              "https://t1.daumcdn.net/friends/prod/category/M001_friends_ryan2.jpg",
-            altText: "hello I'm Ryan",
-          },
-        },
-      ],
-    },
-  };
-
-  res.status(200).send(responseBody);
-});
-
 app.listen(3000, function () {
   console.log(
-    "Skill Server listening on port 3000. [ dev.codesj.kr:3000 ] \nMade by Seungjae Lee | dev.codesj.kr\n_______________BACK V1.1_______________"
+    `Skill Server listening on port 3000. [ dev.codesj.kr:3000 ] \nMade by Seungjae Lee | dev.codesj.kr\n ${
+      year + "." + month + "." + date + " " + hour + ":" + min + ":" + sec
+    }\n_______________BACK V1.1_______________`
   );
 });
